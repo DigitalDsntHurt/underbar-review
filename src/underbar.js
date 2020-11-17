@@ -40,7 +40,7 @@
   _.last = function(array, n) {
     if (n === 0) { return []; }
     if (n > array.length - 1) { return array; }
-    return n === undefined ? array[array.length - 1] : array.slice(n);
+    return n === undefined ? array[array.length - 1] : array.slice(-n);
   };
 
   // Call iterator(value, key, collection) for each element of collection.
@@ -49,7 +49,6 @@
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
   _.each = function(collection, iterator) {
-
     if (Array.isArray(collection)) {
       for (let i = 0; i < collection.length; i++) {
         iterator(collection[i], i, collection);
@@ -68,13 +67,11 @@
     // implemented for you. Instead of using a standard `for` loop, though,
     // it uses the iteration helper `each`, which you will need to write.
     var result = -1;
-
     _.each(array, function(item, index) {
       if (item === target && result === -1) {
         result = index;
       }
     });
-
     return result;
   };
 
@@ -83,7 +80,7 @@
     let results = [];
     _.each(collection, function(item) {
       if (test(item)) { results.push(item); }
-    })
+    });
     return results;
   };
 
@@ -93,20 +90,27 @@
     // copying code in and modifying it
     return _.filter(collection, function(item) {
       return !test(item);
-    })
+    });
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
-
+    iterator = (iterator || _.identity);
+    let iterated = {};
+    for (let item of array) {
+      if (!iterated[iterator(item)]) {
+        iterated[iterator(item)] = item;
+      }
+    }
+    return Object.values(iterated);
   };
-
 
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+
   };
 
   /*
