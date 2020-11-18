@@ -206,8 +206,6 @@
       return memo || !!iterator(item);
     }, false);
   };
-
-
   /**
    * OBJECTS
    * =======
@@ -306,7 +304,10 @@
   // The arguments for the original function are passed after the wait
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
-  _.delay = function(func, wait) {
+  _.delay = function(func, wait,  ...rest) {
+    setTimeout(function() {
+      func.apply(null, rest);
+    }, wait);
   };
 
 
@@ -321,6 +322,14 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    let copy = array.slice();
+    let shuffled = [];
+    while (shuffled.length < array.length) {
+      let randomIdx = Math.floor(Math.random() * (copy.length - 1));
+      shuffled.push(copy[randomIdx]);
+      copy.splice(randomIdx, 1);
+    }
+    return shuffled;
   };
 
 
