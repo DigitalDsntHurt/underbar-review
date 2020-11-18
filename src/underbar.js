@@ -186,12 +186,25 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    iterator = (iterator || _.identity);
+    return _.reduce(collection, function(memo, item) {
+      return memo && !!iterator(item);
+    }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    // the not of something and something is equal to the not of
+    // !_.every(collection, function(item) {
+    //   return !iterator(item);
+    // })
+
+    iterator = (iterator || _.identity);
+    return _.reduce(collection, function(memo, item) {
+      return memo || !!iterator(item);
+    }, false);
   };
 
 
